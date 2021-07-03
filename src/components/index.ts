@@ -22,6 +22,8 @@ export { default as Button } from './molecules/Button';
 export { default as Card } from './molecules/Card';
 export { default as IconButton } from './molecules/IconButton';
 export { default as Link } from './molecules/Link';
+export { default as IconInputText } from './molecules/IconInputText';
+export { default as AutoComplete } from './molecules/AutoComplete';
 
 export { default as Header } from './organisms/Header';
 
