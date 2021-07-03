@@ -8,16 +8,14 @@ import styles from './styles.module.css';
 
 type TItem = { label: string; value: string; [key: string]: string | number };
 
-export interface IProps extends Omit<IconInputTextProps, 'initialValue' | 'onFocusOut'> {
+export interface IProps
+    extends Omit<IconInputTextProps, 'initialValue' | 'onFocusOut'> {
     items: Array<TItem>;
     handleChange?: (value?: TItem) => void;
     label?: string;
     initialValue?: TItem;
     name: string;
-    onFocusOut?: (
-        name: string,
-        value?: TItem
-    ) => void;
+    onFocusOut?: (name: string, value?: TItem) => void;
     handleItems?: (value?: TItem) => void;
 }
 
@@ -117,10 +115,11 @@ const AutoComplete = ({
                         value: v ?? '',
                     });
                     setShow(true);
-                    if (handleItems && filterItems.length < 1) handleItems({
-                        label: v ?? '',
-                        value: v ?? '',
-                    });
+                    if (handleItems && filterItems.length < 1)
+                        handleItems({
+                            label: v ?? '',
+                            value: v ?? '',
+                        });
                 }}
             />
             <div
