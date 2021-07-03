@@ -30,6 +30,7 @@ export { default as Header } from './organisms/Header';
 export { default as ErrorPage } from './pages/Error';
 export { default as LoadingPage } from './pages/Loading';
 export { default as NotFoundPage } from './pages/NotFound';
+export { default as HomePage } from './pages/Home';
 
 export { default as MainTemplate } from './templates/Main';
 
