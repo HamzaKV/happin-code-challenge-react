@@ -19,18 +19,23 @@ const HomePage = () => {
                     }}
                 >
                     <Text type='t6'>Cities</Text>
-                    <AutoComplete items={cities} name='cities' autoFocus />
+                    <AutoComplete
+                        items={cities ?? []}
+                        name='cities'
+                        autoFocus
+                    />
                     <Text type='t6' style={{ marginTop: 25 }}>
                         Books
                     </Text>
                     <AutoComplete
-                        items={books.map((book) => book.title)}
+                        items={books?.map((book) => book.title) ?? []}
                         name='books'
                         ItemComponent={({ item }: { item: string }) => (
                             <>
                                 <div>Title: {item}</div>
                                 <div>
-                                    Author: {
+                                    Author:{' '}
+                                    {
                                         books.find(
                                             (book) => book.title === item
                                         )?.author

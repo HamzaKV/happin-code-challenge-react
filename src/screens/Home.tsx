@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { HomePage } from '../components';
+import { HomePage, ContextComposer } from '../components';
 import { BooksProvider, useBooksDispatch } from '../controls/store/books-store';
 import {
     CitiesProvider,
@@ -21,12 +21,8 @@ const Home = () => {
     return <HomePage />;
 };
 
-const HomeRoot = () => (
-    <CitiesProvider>
-        <BooksProvider>
-            <Home />
-        </BooksProvider>
-    </CitiesProvider>
+export default ContextComposer(
+    Home,
+    CitiesProvider, 
+    BooksProvider
 );
-
-export default HomeRoot;

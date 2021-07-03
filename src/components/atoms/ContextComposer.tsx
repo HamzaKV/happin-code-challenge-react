@@ -1,19 +1,24 @@
+const ContextComposer =
+    (ChildComponent: any, ...ContextComponents: any[]) =>
+        () =>
+            compose(ChildComponent, ...ContextComponents);
 
-const ContextComposer = (ChildComponent: any, ContextComponents: any[]) =>
-    compose(ChildComponent, ContextComponents);
-
-const compose: any = (ChildComponent: any, ContextComponents: any[]) => {
+const compose: any = (ChildComponent: any, ...ContextComponents: any[]) => {
     const Contexts = ContextComponents;
     const Context = Contexts.pop();
 
-    return ContextComponents.length === 0
-        ? ChildComponent
-        : compose(
-            <Context>
-                <ChildComponent />
-            </Context>,
-            Contexts
-        );
+    const Component = () => (
+        <Context>
+            <ChildComponent />
+        </Context>
+    );
+    
+    return Contexts.length === 0 ? <Component /> : (
+        compose(
+            Component,
+            ...Contexts
+        )
+    );
 };
 
 export default ContextComposer;
