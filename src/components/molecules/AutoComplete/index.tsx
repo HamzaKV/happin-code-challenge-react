@@ -127,16 +127,15 @@ const AutoComplete = ({
                 onMouseOver={() => setMouseOverItems(true)}
                 onMouseLeave={() => setMouseOverItems(false)}
             >
-                {show && value?.value && (
+                {show && filterItems.length === 0 && (
                     <div
                         className={styles.item}
                         style={{
                             backgroundColor: index === -1 ? '#e9e9e9' : 'white',
                         }}
-                        onClick={() => handleItemClick(value)}
                     >
                         <Text type='t8' color={color}>
-                            Custom: {value?.label}
+                            No Results
                         </Text>
                     </div>
                 )}

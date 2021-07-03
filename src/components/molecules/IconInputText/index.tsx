@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     default as InputField,
     IProps as InputFieldProps,
@@ -39,6 +39,8 @@ const IconInputText = ({
     ...other
 }: IProps) => {
     const [value, setValue] = useState(initialValue ?? '');
+
+    useEffect(() => setValue(initialValue ?? ''), [initialValue]);
 
     const handleChange = (e: any) => {
         const v = e.target.value;
