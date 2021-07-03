@@ -8,14 +8,11 @@ import styles from './styles.module.css';
 
 type TItem = { label: string; value: string; [key: string]: string | number };
 
-export interface IProps {
+export interface IProps extends Omit<IconInputTextProps, 'initialValue' | 'onFocusOut'> {
     items: Array<TItem>;
     handleChange?: (value?: TItem) => void;
     label?: string;
     initialValue?: TItem;
-    color?: IconInputTextProps['color'];
-    labelColor?: IconInputTextProps['labelColor'];
-    helperColor?: IconInputTextProps['helperColor'];
     name: string;
     onFocusOut?: (
         name: string,
@@ -34,7 +31,8 @@ const AutoComplete = ({
     helperColor,
     color,
     onFocusOut,
-    handleItems
+    handleItems,
+    ...other
 }: IProps) => {
     const [value, setValue] = useState(initialValue);
     const [show, setShow] = useState(false);
@@ -100,6 +98,7 @@ const AutoComplete = ({
             onMouseLeave={() => setMouseOverItems(false)}
         >
             <IconInputText
+                {...other}
                 icon='search'
                 label={label}
                 initialValue={value?.label}
