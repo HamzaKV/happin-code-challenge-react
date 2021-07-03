@@ -1,0 +1,29 @@
+.container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.listContainer {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.item {
+    padding: 5px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.item:hover {
+    background-color: #e9e9e9;
+}
