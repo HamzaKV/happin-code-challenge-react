@@ -11,13 +11,13 @@ const makeStore = <R extends Reducer<any, any>, IContext>(
     reducer: R,
     initialState: ReducerState<R>
 ): [
-    React.ReactNode,
+    any,
     () => IContext,
-    () => React.Dispatch<React.ReducerAction<R>> | null
+    () => React.Dispatch<React.ReducerAction<R>>
 ] => {
     type TDispatchContext = React.Dispatch<React.ReducerAction<R>>;
 
-    const dispatchContext = createContext<TDispatchContext | null>(null);
+    const dispatchContext = createContext<TDispatchContext>(() => {});
     const storeContext = createContext<any>(null);
 
     const StoreProvider: FC = ({ children }) => {

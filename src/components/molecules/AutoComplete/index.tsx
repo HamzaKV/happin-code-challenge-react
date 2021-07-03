@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Text from '../../atoms/Text';
 import {
     default as IconInputText,
@@ -6,7 +6,7 @@ import {
 } from '../IconInputText';
 import styles from './styles.module.css';
 
-type TItem = { label: string; value: string; [key: string]: string | number };
+type TItem = string;
 
 export interface IProps
     extends Omit<IconInputTextProps, 'initialValue' | 'onFocusOut'> {
@@ -17,6 +17,7 @@ export interface IProps
     name: string;
     onFocusOut?: (name: string, value?: TItem) => void;
     handleItems?: (value?: TItem) => void;
+    ItemComponent?: any;
 }
 
 const AutoComplete = ({
@@ -30,18 +31,17 @@ const AutoComplete = ({
     color,
     onFocusOut,
     handleItems,
+    ItemComponent,
     ...other
 }: IProps) => {
-    const [value, setValue] = useState(initialValue);
+    const [value, setValue] = useState(initialValue ?? '');
     const [show, setShow] = useState(false);
-    const [index, setIndex] = useState(-2);
+    const [index, setIndex] = useState(-1);
     const [mouseOverItems, setMouseOverItems] = useState(false);
 
     const filterItems = items.filter((item) => {
-        if (value?.value) {
-            return item.value
-                .toUpperCase()
-                .startsWith(value?.value.toUpperCase());
+        if (value) {
+            return item.toUpperCase().startsWith(value?.toUpperCase());
         }
         return item;
     });
@@ -60,11 +60,7 @@ const AutoComplete = ({
                 // eslint-disable-next-line no-case-declarations
                 const item = index === -1 ? value : filterItems[index];
                 setValue(item);
-                if (handleChange)
-                    handleChange({
-                        label: capitalizing(item?.label ?? ''),
-                        value: item?.value.toLowerCase() ?? '',
-                    });
+                if (handleChange) handleChange(item);
                 setShow(false);
                 setIndex(-2);
                 break;
@@ -76,11 +72,7 @@ const AutoComplete = ({
         if (!mouseOverItems) {
             setShow(false);
         }
-        if (onFocusOut)
-            onFocusOut(name, {
-                label: capitalizing(value?.label ?? ''),
-                value: value?.value.toLowerCase() ?? '',
-            });
+        if (onFocusOut) onFocusOut(name, value);
     };
 
     const handleItemClick = (item: any) => {
@@ -89,6 +81,11 @@ const AutoComplete = ({
         setShow(false);
         setIndex(-2);
     };
+
+    useEffect(() => {
+        if (value.length >= 3) setShow(true);
+        else setShow(false);
+    }, [value]);
 
     return (
         <div
@@ -99,27 +96,19 @@ const AutoComplete = ({
                 {...other}
                 icon='search'
                 label={label}
-                initialValue={value?.label}
+                initialValue={value}
                 name={name}
                 onFocusOut={handleBlur}
                 onFocus={() => {
-                    setShow(true);
+                    if (value.length >= 3) setShow(true);
                 }}
                 onKeyDown={handleKeyDown}
                 labelColor={labelColor}
                 helperColor={helperColor}
                 color={color}
                 onInputChange={(v) => {
-                    setValue({
-                        label: v ?? '',
-                        value: v ?? '',
-                    });
-                    setShow(true);
-                    if (handleItems && filterItems.length < 1)
-                        handleItems({
-                            label: v ?? '',
-                            value: v ?? '',
-                        });
+                    setValue(v ?? '');
+                    if (handleItems && filterItems.length < 1) handleItems(v);
                 }}
             />
             <div
@@ -151,23 +140,16 @@ const AutoComplete = ({
                                     index === key ? '#e9e9e9' : 'white',
                             }}
                         >
-                            {item.label}
+                            {ItemComponent ? (
+                                <ItemComponent item={item} />
+                            ) : (
+                                item
+                            )}
                         </div>
                     ))}
             </div>
         </div>
     );
-};
-
-const capitalizing = (str: string) => {
-    const arr = str.split(' ');
-    const tmp = [];
-
-    for (const word of arr) {
-        tmp.push(word.charAt(0).toUpperCase() + word.slice(1));
-    }
-
-    return tmp.join(' ');
 };
 
 export default AutoComplete;

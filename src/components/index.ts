@@ -17,6 +17,7 @@ export { default as Text } from './atoms/Text';
 export { default as Page } from './atoms/Page';
 export { default as Section } from './atoms/Section';
 export { default as ScrollDiv } from './atoms/ScrollDiv';
+export { default as ContextComposer} from './atoms/ContextComposer';
 
 export { default as Button } from './molecules/Button';
 export { default as Card } from './molecules/Card';
